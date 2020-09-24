@@ -73,6 +73,27 @@ class Game(private var context: Context,view: TextView) {
             gameView!!.invalidate()
         }
     }
+    fun movePacmanLeft(pixels: Int){
+        if(pacx - pixels > 0){
+            pacx = pacx - pixels
+            doCollisionCheck()
+            gameView!!.invalidate()
+        }
+    }
+    fun movePacmanUp(pixels: Int){
+        if(pacy - pixels > 0){
+            pacy = pacy - pixels
+            doCollisionCheck()
+            gameView!!.invalidate()
+        }
+    }
+    fun movePacmanDown(pixels: Int){
+        if(pacy + pixels + pacBitmap.height < h){
+            pacy = pacy + pixels
+            doCollisionCheck()
+            gameView!!.invalidate()
+        }
+    }
 
     //TODO check if the pacman touches a gold coin
     //and if yes, then update the neccesseary data

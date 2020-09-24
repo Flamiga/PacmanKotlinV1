@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.activity_main)
-        game = Game(this,pointsView)
+        game = Game(this, pointsView)
 
 
         game?.setGameView(gameView)
@@ -27,8 +27,16 @@ class MainActivity : AppCompatActivity() {
         moveRight.setOnClickListener {
             game?.movePacmanRight(10)
         }
+        moveLeft.setOnClickListener {
+            game?.movePacmanLeft(10)
+        }
+        moveUp.setOnClickListener {
+            game?.movePacmanUp(10)
+        }
 
-
+        moveDown.setOnClickListener {
+            game?.movePacmanDown(10)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
