@@ -47,6 +47,8 @@
         />
 </LinearLayout>
 
+
+    
     <TextView
         android:id="@+id/pointsView"
         android:textSize="24sp"
