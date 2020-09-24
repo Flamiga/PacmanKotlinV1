@@ -4,4 +4,6 @@ package org.pondar.pacmankotlin
 class GoldCoin() {
     var x = 0
     var y = 0
+
+    
 }
