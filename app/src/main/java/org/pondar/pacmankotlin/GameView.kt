@@ -22,7 +22,7 @@ class GameView : View {
 
 
     /* The next 3 constructors are needed for the Android view system,
-	when we have a custom view.
+	when we have a custom view. they are mandatory when you extends a class
 	 */
     constructor(context: Context) : super(context)
 
