@@ -3,6 +3,7 @@ package org.pondar.pacmankotlin
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import android.widget.TextView
 import java.util.ArrayList
 
@@ -14,19 +15,24 @@ import java.util.ArrayList
 
 class Game(private var context: Context,view: TextView) {
 
-        private var pointsView: TextView = view
+
+
+    private var pointsView: TextView = view
         private var points : Int = 0
         //bitmap of the pacman
         var pacBitmap: Bitmap
         var pacx: Int = 0
         var pacy: Int = 0
 
+        //Bitmap of the gold coin
+        var goldBitmap: Bitmap
 
         //did we initialize the coins?
         var coinsInitialized = false
 
         //the list of goldcoins - initially empty
         var coins = ArrayList<GoldCoin>()
+
         //a reference to the gameview
         private var gameView: GameView? = null
         private var h: Int = 0
@@ -38,6 +44,14 @@ class Game(private var context: Context,view: TextView) {
 
     }
 
+    init{
+        goldBitmap = BitmapFactory.decodeResource(
+                context.resources,
+                R.drawable.money
+        )
+
+    }
+
     fun setGameView(view: GameView) {
         this.gameView = view
     }
@@ -46,7 +60,16 @@ class Game(private var context: Context,view: TextView) {
     fun initializeGoldcoins()
     {
         //DO Stuff to initialize the array list with coins.
-
+        coins.add(GoldCoin(false, 110, 755))
+        coins.add(GoldCoin(false, 580, 1460))
+        coins.add(GoldCoin(false, 880,310))
+        coins.add(GoldCoin(false, 350, 367))
+        coins.add(GoldCoin(false, 500,800))
+        coins.add(GoldCoin(false, 223, 1204))
+        coins.add(GoldCoin(false,  657, 221))
+        coins.add(GoldCoin(false, 587, 1130))
+        coins.add(GoldCoin(false, 200, 950))
+        coins.add(GoldCoin(false, 800, 945))
         coinsInitialized = true
     }
 
@@ -60,6 +83,7 @@ class Game(private var context: Context,view: TextView) {
         pointsView.text = "${context.resources.getString(R.string.points)} $points"
         gameView?.invalidate() //redraw screen
     }
+
     fun setSize(h: Int, w: Int) {
         this.h = h
         this.w = w

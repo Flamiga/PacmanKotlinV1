@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import java.lang.Math.random
 
 
 //note we now create our own view class that extends the built-in View class
@@ -27,7 +28,6 @@ class GameView : View {
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
-
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
@@ -54,10 +54,18 @@ class GameView : View {
         canvas.drawBitmap(game!!.pacBitmap, game?.pacx!!.toFloat(),
                 game?.pacy!!.toFloat(), paint)
 
-        //TODO loop through the list of goldcoins and draw them.
 
+    //TODO loop through the list of goldcoins and draw them.
+    for (coin in game!!.coins) {
+        ///draw the goldcoins
+        Log.d("you have printed ", "$coin")
+       canvas.drawBitmap(game!!.goldBitmap, coin.golx.toFloat(), coin.goly.toFloat(), paint)
+    }
         game?.doCollisionCheck()
         super.onDraw(canvas)
     }
 
 }
+
+
+
