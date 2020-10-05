@@ -11,7 +11,8 @@
         android:layout_height="match_parent">
 
     </org.pondar.pacmankotlin.GameView>
-<LinearLayout
+
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/buttons"
@@ -48,13 +49,26 @@
 </LinearLayout>
 
 
-
     <TextView
         android:id="@+id/pointsView"
-        android:textSize="24sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/points"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/time_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/points" />
+        android:layout_marginTop="50dp"
+        android:text="@string/time_left" />
+
+    <TextView
+        android:id="@+id/timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/timer" />
     <!-- Notice how the custom view is referenced here with
     a full package path-->
 

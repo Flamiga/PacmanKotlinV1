@@ -5,8 +5,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
 import java.lang.Math.sqrt
-import java.util.ArrayList
+import java.util.*
 
 
 /**
@@ -14,7 +15,7 @@ import java.util.ArrayList
  * This class should contain all your game logic
  */
 
-class Game(private var context: Context,view: TextView) {
+class Game(private var context: Context, view: TextView) {
 
 
     private var pointsView: TextView = view
@@ -24,6 +25,13 @@ class Game(private var context: Context,view: TextView) {
     var pacBitmap: Bitmap
     var pacx: Int = 0
     var pacy: Int = 0
+    var counter: Int = 0
+    var timer: Int = 60
+    var direction: Int = 0
+    private var running = false
+    var paused = false
+    private var myTimer: Timer = Timer()
+    private var countDown: Timer = Timer()
 
     //Bitmap of the gold coin
     var goldBitmap: Bitmap
@@ -74,9 +82,13 @@ class Game(private var context: Context,view: TextView) {
     }
 
 
+
+
     fun newGame() {
         pacx = 50
         pacy = 400 //just some starting coordinates - you can change this.
+        timer = 60
+        counter = 0
         //reset the points
         coinsInitialized = false
         points = 0
@@ -136,9 +148,18 @@ class Game(private var context: Context,view: TextView) {
     fun doCollisionCheck() {
         coins.forEach {
             if (distance(pacx, pacy, it.golx, it.goly) < 200) {
-                points++
-                it.taken = true
+                if (it.taken == false) {
+                    points++
+                    it.taken = true
+                    pointsView.text = "${context.resources.getString(R.string.points)} $points"
+                    if (points === 10) {
+                        Toast.makeText(context, "You won!", Toast.LENGTH_LONG).show()
+                        newGame()
+                    }
+
+                }
             }
         }
     }
 }
+
