@@ -96,6 +96,8 @@ class Game(private var context: Context, view: TextView) {
         gameView?.invalidate() //redraw screen
     }
 
+
+
     fun setSize(h: Int, w: Int) {
         this.h = h
         this.w = w
@@ -106,7 +108,9 @@ class Game(private var context: Context, view: TextView) {
         if (pacx + pixels + pacBitmap.width < w) {
             pacx = pacx + pixels
             doCollisionCheck()
+            direction = 4
             gameView!!.invalidate()
+
         }
     }
 
@@ -114,7 +118,9 @@ class Game(private var context: Context, view: TextView) {
         if (pacx - pixels > 0) {
             pacx = pacx - pixels
             doCollisionCheck()
+            direction = 3
             gameView!!.invalidate()
+
         }
     }
 
@@ -122,7 +128,9 @@ class Game(private var context: Context, view: TextView) {
         if (pacy - pixels > 0) {
             pacy = pacy - pixels
             doCollisionCheck()
+            direction = 1
             gameView!!.invalidate()
+
         }
     }
 
@@ -130,7 +138,9 @@ class Game(private var context: Context, view: TextView) {
         if (pacy + pixels + pacBitmap.height < h) {
             pacy = pacy + pixels
             doCollisionCheck()
+            direction = 2
             gameView!!.invalidate()
+
 
         }
     }
