@@ -26,7 +26,7 @@ class Game(private var context: Context, view: TextView) {
     var pacx: Int = 0
     var pacy: Int = 0
     var counter: Int = 0
-    var timer: Int = 60
+    var timer: Int = 30
     var direction: Int = 0
     private var running = false
     var pause = false
@@ -82,18 +82,26 @@ class Game(private var context: Context, view: TextView) {
         coinsInitialized = true
     }
 
-
-
     fun newGame() {
         pacx = 50
         pacy = 400 //just some starting coordinates - you can change this.
-        timer = 60
+        timer = 30
         counter = 0
+        myTimer
+        running = false
+
         //reset the points
         coinsInitialized = false
         points = 0
         pointsView.text = "${context.resources.getString(R.string.points)} $points"
         gameView?.invalidate() //redraw screen
+    }
+
+    fun gameOver(){
+        if (timer===1)
+        {
+            Toast.makeText(context, "You loose", Toast.LENGTH_LONG).show()
+        }
     }
 
 
@@ -159,7 +167,7 @@ class Game(private var context: Context, view: TextView) {
                     points++
                     it.taken = true
                     pointsView.text = "${context.resources.getString(R.string.points)} $points"
-                    if (points === 10) {
+                    if (points === 9) {
                         Toast.makeText(context, "You won!", Toast.LENGTH_LONG).show()
                         newGame()
                     }

@@ -15,9 +15,8 @@ class MainActivity : AppCompatActivity() {
 
     private var myTimer: Timer = Timer()
     private var countDown: Timer = Timer()
-    var paused = false
     private var running: Boolean = false
-    private var counter = 0
+    private var counter: Int = 0
 
     //reference to the game class.
     private var game: Game? = null
@@ -57,6 +56,7 @@ class MainActivity : AppCompatActivity() {
             game!!.newGame() //you should call the newGame method instead of this
             running = false
             timer.text = getString(R.string.timer, counter)
+            time_left.text =getString(R.string.time_left, counter)
         }
         running = false
 
@@ -90,15 +90,16 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         myTimer.cancel()
+
     }
 
     private val timerTickCountDown = Runnable {
         if (running) {
             game!!.timer--
-            timer.text = getString(R.string.time_left,game!!.timer)
-
+            time_left.text = getString(R.string.time_left, game!!.timer)
         }
     }
+
     private val timerTick = Runnable {
         //This method runs in the same thread as the UI.
         // so we can draw
