@@ -1,6 +1,7 @@
 package org.pondar.pacmankotlin
 
 import android.content.pm.ActivityInfo
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -15,7 +16,8 @@ class MainActivity : AppCompatActivity() {
     private var myTimer: Timer = Timer()
     private var countDown: Timer = Timer()
     var paused = false
-    private var running = false
+    private var running: Boolean = false
+    private var counter = 0
 
     //reference to the game class.
     private var game: Game? = null
@@ -24,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.activity_main)
         game = Game(this, pointsView)
@@ -44,13 +47,22 @@ class MainActivity : AppCompatActivity() {
         moveDown.setOnClickListener {
             game?.movePacmanDown(0)
         }
-
-        running = true
+        pause.setOnClickListener {
+            running = false}
+        start.setOnClickListener{
+            running = true
+        }
+        reset.setOnClickListener{
+            counter = 0
+            game!!.newGame() //you should call the newGame method instead of this
+            running = false
+            timer.text = getString(R.string.timer, counter)
+        }
+        running = false
 
         fun timerMethod() {
             this.runOnUiThread(timerTick);
         }
-
 
 
         myTimer.schedule(
@@ -58,28 +70,33 @@ class MainActivity : AppCompatActivity() {
                     override fun run() {
                         timerMethod()
                     }
-                }, 1, 200)
+                }, 0, 200)
 
         //0 indicates we start now, 200
         //is the number of miliseconds between each call,
-        fun timerMethodCountDown() {
+      fun timerMethodCountDown() {
             this.runOnUiThread(timerTickCountDown)
 
         }
         countDown.schedule(object : TimerTask() {
             override fun run() {
                 timerMethodCountDown()
-
             }
 
         }, 0, 1000)
 
     }
 
+    override fun onStop() {
+        super.onStop()
+        myTimer.cancel()
+    }
+
     private val timerTickCountDown = Runnable {
         if (running) {
             game!!.timer--
-            time_left.text = "Time left:  {game!!.time_left}"
+            timer.text = getString(R.string.time_left,game!!.timer)
+
         }
     }
     private val timerTick = Runnable {

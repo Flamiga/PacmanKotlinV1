@@ -9,4 +9,7 @@
     <string name="move_down">Move Down</string>
     <string name="time_left">Time Left: %1$d</string>
     <string name="timer">Timer: %1$d</string>
+    <string name="pause">Pause</string>
+    <string name="start">start</string>
+    <string name="reset">Reset</string>
 </resources>

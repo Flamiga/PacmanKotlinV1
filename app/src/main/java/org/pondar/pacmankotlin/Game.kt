@@ -29,7 +29,7 @@ class Game(private var context: Context, view: TextView) {
     var timer: Int = 60
     var direction: Int = 0
     private var running = false
-    var paused = false
+    var pause = false
     private var myTimer: Timer = Timer()
     private var countDown: Timer = Timer()
 
@@ -61,6 +61,7 @@ class Game(private var context: Context, view: TextView) {
 
     }
 
+
     fun setGameView(view: GameView) {
         this.gameView = view
     }
@@ -83,7 +84,6 @@ class Game(private var context: Context, view: TextView) {
 
 
 
-
     fun newGame() {
         pacx = 50
         pacy = 400 //just some starting coordinates - you can change this.
@@ -95,7 +95,6 @@ class Game(private var context: Context, view: TextView) {
         pointsView.text = "${context.resources.getString(R.string.points)} $points"
         gameView?.invalidate() //redraw screen
     }
-
 
 
     fun setSize(h: Int, w: Int) {
@@ -130,7 +129,6 @@ class Game(private var context: Context, view: TextView) {
             doCollisionCheck()
             direction = 1
             gameView!!.invalidate()
-
         }
     }
 
@@ -140,7 +138,6 @@ class Game(private var context: Context, view: TextView) {
             doCollisionCheck()
             direction = 2
             gameView!!.invalidate()
-
 
         }
     }
