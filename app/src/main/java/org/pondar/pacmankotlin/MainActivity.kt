@@ -15,7 +15,6 @@ class MainActivity : AppCompatActivity() {
 
     private var myTimer: Timer = Timer()
     private var countDown: Timer = Timer()
-    private var running: Boolean = false
     private var counter: Int = 0
 
     //reference to the game class.
@@ -47,18 +46,19 @@ class MainActivity : AppCompatActivity() {
             game?.movePacmanDown(0)
         }
         pause.setOnClickListener {
-            running = false}
-        start.setOnClickListener{
-            running = true
+            game!!.running = false
         }
-        reset.setOnClickListener{
+        start.setOnClickListener {
+            game!!.running = true
+        }
+        reset.setOnClickListener {
             counter = 0
             game!!.newGame() //you should call the newGame method instead of this
-            running = false
+            game!!.running = false
             timer.text = getString(R.string.timer, counter)
-            time_left.text =getString(R.string.time_left, counter)
+            time_left.text = getString(R.string.time_left, counter)
         }
-        running = false
+        game!!.running = false
 
         fun timerMethod() {
             this.runOnUiThread(timerTick);
@@ -70,11 +70,11 @@ class MainActivity : AppCompatActivity() {
                     override fun run() {
                         timerMethod()
                     }
-                }, 0, 200)
+                }, 0, 50)
 
         //0 indicates we start now, 200
         //is the number of miliseconds between each call,
-      fun timerMethodCountDown() {
+        fun timerMethodCountDown() {
             this.runOnUiThread(timerTickCountDown)
 
         }
@@ -94,16 +94,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val timerTickCountDown = Runnable {
-        if (running) {
+        if (game!!.running) {
             game!!.timer--
             time_left.text = getString(R.string.time_left, game!!.timer)
+            game!!.gameOver()
         }
     }
 
     private val timerTick = Runnable {
         //This method runs in the same thread as the UI.
         // so we can draw
-        if (running) {
+        if (game!!.running) {
             game!!.counter++
             //update the counter - notice this is NOT seconds in this example
             //you need TWO counters - one for the timer count down that will
@@ -113,35 +114,25 @@ class MainActivity : AppCompatActivity() {
 
             if (game!!.direction == 1) {
                 game?.movePacmanUp(50)
-                if (game!!.timer === 1) {
-                    game?.newGame()
-                    Toast.makeText(this, "You died", Toast.LENGTH_LONG).show()
-                }
+
             } else if (game!!.direction == 2) {
                 game?.movePacmanDown(50)
-                if (game!!.timer === 1) {
-                    game?.newGame()
-                    Toast.makeText(this, "You died", Toast.LENGTH_LONG).show()
-                }
+
             } else if (game!!.direction == 3) {
                 game?.movePacmanLeft(50)
-                if (game!!.timer === 1) {
-                    game?.newGame()
-                    Toast.makeText(this, "You died", Toast.LENGTH_LONG).show()
-                }
+
             } else if (game!!.direction == 4) {
                 game?.movePacmanRight(50)
-                if (game!!.timer === 1) {
-                    game?.newGame()
-                    Toast.makeText(this, "You died", Toast.LENGTH_LONG).show()
-                }
-            }
+            }else if (game!!.timer ===1){
+                        game?.gameOver()
+                Toast.makeText(this, "You died", Toast.LENGTH_LONG).show()
+                    }
             //move the pacman - you
             //should call a method on your game class to move
             //the pacman instead of this
+
         }
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.

@@ -28,14 +28,13 @@ class Game(private var context: Context, view: TextView) {
     var counter: Int = 0
     var timer: Int = 30
     var direction: Int = 0
-    private var running = false
-    var pause = false
-    private var myTimer: Timer = Timer()
-    private var countDown: Timer = Timer()
-
+    var running: Boolean = false
+    var ghostx: Int = 0
+    var ghosty: Int = 0
     //Bitmap of the gold coin
     var goldBitmap: Bitmap
 
+    var ghostBitmap: Bitmap
     //did we initialize the coins?
     var coinsInitialized = false
 
@@ -60,6 +59,7 @@ class Game(private var context: Context, view: TextView) {
         )
 
     }
+    init { ghostBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ghost)}
 
 
     fun setGameView(view: GameView) {
@@ -85,10 +85,11 @@ class Game(private var context: Context, view: TextView) {
     fun newGame() {
         pacx = 50
         pacy = 400 //just some starting coordinates - you can change this.
+        ghostx = 900
+        ghosty = 500
         timer = 30
         counter = 0
-        myTimer
-        running = false
+        running = true
 
         //reset the points
         coinsInitialized = false
@@ -100,10 +101,14 @@ class Game(private var context: Context, view: TextView) {
     fun gameOver(){
         if (timer===1)
         {
+            timer = 0
+            running = false
+            counter = 0
             Toast.makeText(context, "You loose", Toast.LENGTH_LONG).show()
-        }
-    }
 
+        }
+
+    }
 
     fun setSize(h: Int, w: Int) {
         this.h = h
