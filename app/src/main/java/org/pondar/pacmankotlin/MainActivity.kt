@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         }
         reset.setOnClickListener {
             counter = 0
+            game!!.points = 0
             game!!.newGame() //you should call the newGame method instead of this
             game!!.running = false
             timer.text = getString(R.string.timer, counter)
@@ -75,7 +76,6 @@ class MainActivity : AppCompatActivity() {
 
         //0 indicates we start now, 200
         //is the number of miliseconds between each call,
-        //timer on time
         fun timerMethodCountDown() {
             this.runOnUiThread(timerTickCountDown)
 
@@ -108,7 +108,8 @@ class MainActivity : AppCompatActivity() {
         // so we can draw
         if (game!!.running) {
             game!!.counter++
-
+            game!!.moveEnemy(20)
+            gameView!!.invalidate()
             //update the counter - notice this is NOT seconds in this example
             //you need TWO counters - one for the timer count down that will
             // run every second and one for the pacman which need to run
@@ -153,6 +154,9 @@ class MainActivity : AppCompatActivity() {
         } else if (id == R.id.action_newGame) {
             Toast.makeText(this, "New Game clicked", Toast.LENGTH_LONG).show()
             game?.newGame()
+         //you should call the newGame method instead of this
+            timer.text = getString(R.string.timer, counter)
+            time_left.text = getString(R.string.time_left, counter)
             return true
         }
         return super.onOptionsItemSelected(item)

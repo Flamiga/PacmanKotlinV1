@@ -55,6 +55,8 @@ class GameView : View {
         canvas.drawBitmap(game!!.pacBitmap, game?.pacx!!.toFloat(),
                 game?.pacy!!.toFloat(), paint)
 
+        canvas.drawBitmap(game!!.ghostBitmap, game?.ghostx!!.toFloat(), game?.ghosty!!.toFloat(), paint)
+
 
         //TODO loop through the list of goldcoins and draw them.
         for (coin in game!!.coins) {
@@ -64,11 +66,6 @@ class GameView : View {
 
         }
 
-        for(enemy in game!!.enemies){
-            if(enemy.isAlive == true){
-                canvas.drawBitmap(game!!.ghostBitmap, enemy.ghostx.toFloat(), enemy.ghosty.toFloat(), paint)
-            }
-        }
         game?.doCollisionCheck()
         super.onDraw(canvas)
     }
