@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import java.lang.Math.sqrt
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -29,8 +30,7 @@ class Game(private var context: Context, view: TextView) {
     var timer: Int = 30
     var direction: Int = 0
     var running: Boolean = false
-    var ghostx: Int = 0
-    var ghosty: Int = 0
+
     //Bitmap of the gold coin
     var goldBitmap: Bitmap
 
@@ -41,6 +41,9 @@ class Game(private var context: Context, view: TextView) {
     //the list of goldcoins - initially empty
     var coins = ArrayList<GoldCoin>()
 
+    var enemiesInitialized = false
+    //the list of enemies
+    var enemies = ArrayList<Enemy>()
     //a reference to the gameview
     private var gameView: GameView? = null
     private var h: Int = 0
@@ -81,25 +84,28 @@ class Game(private var context: Context, view: TextView) {
         coins.add(GoldCoin(false, 800, 945))
         coinsInitialized = true
     }
+// array liste af enemies
+    fun initializeEnemies(){
+        enemies.add(Enemy(false, false,  900, 500))
+        enemiesInitialized = true
+    }
 
     fun newGame() {
         pacx = 50
         pacy = 400 //just some starting coordinates - you can change this.
-        ghostx = 900
-        ghosty = 500
         timer = 30
         counter = 0
         running = true
-
         //reset the points
+        enemiesInitialized = false
         coinsInitialized = false
-        points = 0
         pointsView.text = "${context.resources.getString(R.string.points)} $points"
+        points = 0
         gameView?.invalidate() //redraw screen
     }
 
     fun gameOver(){
-        if (timer===1)
+        if (timer==1)
         {
             timer = 0
             running = false
@@ -165,14 +171,28 @@ class Game(private var context: Context, view: TextView) {
         return coordination
     }
 
+    fun distanceEnemy(pacx: Int, pacy: Int, ghostx: Int, ghosty: Int): Double {
+        var coordination = (sqrt(((pacx - ghostx) * (pacx - ghostx) + (pacy - ghosty) * (pacy - ghosty)).toDouble()))
+        return coordination
+    }
+
     fun doCollisionCheck() {
+        enemies.forEach(){
+            if(distanceEnemy(pacx, pacy, it.ghostx, it.ghosty)<200){
+                        running= false
+                        Toast.makeText(context, "You died!", Toast.LENGTH_LONG).show()
+                    }
+                }
+
+
         coins.forEach {
             if (distance(pacx, pacy, it.golx, it.goly) < 200) {
                 if (it.taken == false) {
                     points++
                     it.taken = true
                     pointsView.text = "${context.resources.getString(R.string.points)} $points"
-                    if (points === 9) {
+                    // checking if all 10 coins are taken
+                    if (points === 10) {
                         Toast.makeText(context, "You won!", Toast.LENGTH_LONG).show()
                         newGame()
                     }

@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         moveDown.setOnClickListener {
             game?.movePacmanDown(0)
+
         }
         pause.setOnClickListener {
             game!!.running = false
@@ -60,10 +61,10 @@ class MainActivity : AppCompatActivity() {
         }
         game!!.running = false
 
+        // timer on pacman
         fun timerMethod() {
             this.runOnUiThread(timerTick);
         }
-
 
         myTimer.schedule(
                 object : TimerTask() {
@@ -74,6 +75,7 @@ class MainActivity : AppCompatActivity() {
 
         //0 indicates we start now, 200
         //is the number of miliseconds between each call,
+        //timer on time
         fun timerMethodCountDown() {
             this.runOnUiThread(timerTickCountDown)
 
@@ -106,6 +108,7 @@ class MainActivity : AppCompatActivity() {
         // so we can draw
         if (game!!.running) {
             game!!.counter++
+
             //update the counter - notice this is NOT seconds in this example
             //you need TWO counters - one for the timer count down that will
             // run every second and one for the pacman which need to run
@@ -123,10 +126,9 @@ class MainActivity : AppCompatActivity() {
 
             } else if (game!!.direction == 4) {
                 game?.movePacmanRight(50)
-            }else if (game!!.timer ===1){
-                        game?.gameOver()
-                Toast.makeText(this, "You died", Toast.LENGTH_LONG).show()
-                    }
+            } else if (game!!.timer < 1 && game!!.running == true) {
+                game?.gameOver()
+            }
             //move the pacman - you
             //should call a method on your game class to move
             //the pacman instead of this

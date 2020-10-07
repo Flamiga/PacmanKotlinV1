@@ -1,4 +1,4 @@
 package org.pondar.pacmankotlin
 
-class Enemy {
+open class Enemy(var isAlive: Boolean, var taken: Boolean, var ghostx: Int, var ghosty: Int) {
 }
