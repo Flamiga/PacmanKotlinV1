@@ -44,7 +44,7 @@ class GameView : View {
         //are the coins initiazlied?
         if (!(game!!.coinsInitialized))
             game?.initializeGoldcoins()
-        if (!(game!!.enemiesInitialized))
+        if(!(game!!.enemiesInitialized))
             game?.initializeEnemies()
 
         //Making a new paint object
@@ -55,6 +55,7 @@ class GameView : View {
         canvas.drawBitmap(game!!.pacBitmap, game?.pacx!!.toFloat(),
                 game?.pacy!!.toFloat(), paint)
 
+        // draw the ghost
         canvas.drawBitmap(game!!.ghostBitmap, game?.ghostx!!.toFloat(), game?.ghosty!!.toFloat(), paint)
 
 
@@ -63,8 +64,8 @@ class GameView : View {
             if (coin.taken == false) {
                 canvas.drawBitmap(game!!.goldBitmap, coin.golx.toFloat(), coin.goly.toFloat(), paint)
             }
-
         }
+
 
         game?.doCollisionCheck()
         super.onDraw(canvas)

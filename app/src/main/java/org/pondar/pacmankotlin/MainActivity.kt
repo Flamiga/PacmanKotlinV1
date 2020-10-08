@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
 
     private var myTimer: Timer = Timer()
     private var countDown: Timer = Timer()
-    private var counter: Int = 0
+
 
     //reference to the game class.
     private var game: Game? = null
@@ -53,12 +53,9 @@ class MainActivity : AppCompatActivity() {
             game!!.running = true
         }
         reset.setOnClickListener {
-            counter = 0
-            game!!.points = 0
             game!!.newGame() //you should call the newGame method instead of this
-            game!!.running = false
-            timer.text = getString(R.string.timer, counter)
-            time_left.text = getString(R.string.time_left, counter)
+            timer.text = getString(R.string.timer, game!!.counter)
+            time_left.text = getString(R.string.time_left, game!!.counter)
         }
         game!!.running = false
 
@@ -129,6 +126,7 @@ class MainActivity : AppCompatActivity() {
                 game?.movePacmanRight(50)
             } else if (game!!.timer < 1 && game!!.running == true) {
                 game?.gameOver()
+                game!!.doCollisionCheck()
             }
             //move the pacman - you
             //should call a method on your game class to move
@@ -154,9 +152,10 @@ class MainActivity : AppCompatActivity() {
         } else if (id == R.id.action_newGame) {
             Toast.makeText(this, "New Game clicked", Toast.LENGTH_LONG).show()
             game?.newGame()
+
          //you should call the newGame method instead of this
-            timer.text = getString(R.string.timer, counter)
-            time_left.text = getString(R.string.time_left, counter)
+            timer.text = getString(R.string.timer, game!!.counter)
+            time_left.text = getString(R.string.time_left, game!!.counter)
             return true
         }
         return super.onOptionsItemSelected(item)

@@ -20,7 +20,7 @@ class Game(private var context: Context, view: TextView) {
 
 
     private var pointsView: TextView = view
-     var points: Int = 0
+    var points: Int = 0
 
     //bitmap of the pacman
     var pacBitmap: Bitmap
@@ -32,8 +32,8 @@ class Game(private var context: Context, view: TextView) {
     var running: Boolean = false
 
     // values of enemy
-    var ghostx: Int = 0
-    var ghosty: Int = 0
+    var ghostx: Int = 550
+    var ghosty: Int = 900
     var isAlive: Boolean = true
     var ghostdirection: Int = 1
 
@@ -48,6 +48,7 @@ class Game(private var context: Context, view: TextView) {
     //the list of goldcoins - initially empty
     var coins = ArrayList<GoldCoin>()
 
+    // initialize the enemies
     var enemiesInitialized = false
 
     //the list of enemies
@@ -65,10 +66,7 @@ class Game(private var context: Context, view: TextView) {
     }
 
     init {
-        goldBitmap = BitmapFactory.decodeResource(
-                context.resources,
-                R.drawable.money
-        )
+        goldBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.money)
 
     }
 
@@ -84,6 +82,7 @@ class Game(private var context: Context, view: TextView) {
     //TODO initialize goldcoins also here
     fun initializeGoldcoins() {
         //DO Stuff to initialize the array list with coins.
+        coins.clear()
         coins.add(GoldCoin(false, 110, 755))
         coins.add(GoldCoin(false, 580, 1300))
         coins.add(GoldCoin(false, 880, 310))
@@ -97,11 +96,11 @@ class Game(private var context: Context, view: TextView) {
         coinsInitialized = true
     }
 
-    // array liste af enemies
     fun initializeEnemies() {
         enemies.add(Enemy(true, false, 900, 500))
         enemiesInitialized = true
     }
+
 
     fun newGame() {
         pacx = 50
@@ -113,8 +112,9 @@ class Game(private var context: Context, view: TextView) {
         ghostx = 450
         //reset the points
         coinsInitialized = false
+        points = 0
         pointsView.text = "${context.resources.getString(R.string.points)} $points"
-
+        // initializeGoldcoins() // to make sure
         gameView?.invalidate() //redraw screen
     }
 
@@ -216,11 +216,8 @@ class Game(private var context: Context, view: TextView) {
             if (distanceEnemy(pacx, pacy, ghostx, ghosty) < 150) {
                 running = false
                 Toast.makeText(context, "You died!", Toast.LENGTH_SHORT).show()
-
             }
         }
-
-
         coins.forEach {
             if (distance(pacx, pacy, it.golx, it.goly) < 200) {
                 if (it.taken == false) {
